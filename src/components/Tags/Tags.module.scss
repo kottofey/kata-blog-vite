@@ -1,0 +1,20 @@
+.tags {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0;
+
+&__tag {
+  color: $text-color-secondary;
+  background-color: unset;
+  user-select: none;
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  display: flex;
+  align-items: center;
+
+  max-width: 100px;
+  //height: 45px;
+}
+}
