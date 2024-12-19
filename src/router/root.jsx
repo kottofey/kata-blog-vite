@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Link } from 'react-router-dom';
 
 import App from '../components/App';
 import ErrorPage from '../components/ErrorPage';
@@ -11,7 +11,19 @@ const router = createBrowserRouter([
   {
     path: '/articles?',
     element: <App />,
-    errorElement: <ErrorPage />,
+    errorElement: (
+      <ErrorPage>
+        <p>
+          (На этот раз что-то <b>СИЛЬНО</b> не так...)
+        </p>
+        <Link
+          to='/'
+          style={{ color: '#1890FF' }}
+        >
+          Вернуться на главную
+        </Link>
+      </ErrorPage>
+    ),
     children: [
       {
         index: true,

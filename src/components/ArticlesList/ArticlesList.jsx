@@ -37,33 +37,47 @@ export default function ArticlesList() {
           }}
         />
       ) : null}
-      {data?.articles.map((article) => {
-        return (
-          <ArticlePreview
-            article={article}
-            key={
-              article.slug +
-              article.createdAt +
-              article.author.username
-            }
+      {data ? (
+        <>
+          {data.articles.map((article) => {
+            return (
+              <ArticlePreview
+                article={article}
+                key={
+                  article.slug +
+                  article.createdAt +
+                  article.author.username
+                }
+              />
+            );
+          })}
+          <Pagination
+            align='center'
+            hideOnSinglePage={false}
+            showSizeChanger
+            pageSizeOptions={[2, 5, 20]}
+            pageSize={pageSize}
+            defaultCurrent={1}
+            total={data.articlesCount}
+            current={page}
+            style={{ margin: '10px auto' }}
+            onChange={(pg, pgSize) => {
+              dispatch(setPage(pg));
+              dispatch(setPageSize(pgSize));
+            }}
           />
-        );
-      })}
-      <Pagination
-        align='center'
-        hideOnSinglePage={false}
-        showSizeChanger
-        pageSizeOptions={[2, 5, 20]}
-        pageSize={pageSize}
-        defaultCurrent={1}
-        total={data?.articlesCount}
-        current={page}
-        style={{ margin: '10px auto' }}
-        onChange={(pg, pgSize) => {
-          dispatch(setPage(pg));
-          dispatch(setPageSize(pgSize));
-        }}
-      />
+        </>
+      ) : (
+        <Spin
+          size='large'
+          style={{
+            position: 'fixed',
+            left: '50%',
+            top: '50%',
+            zIndex: 100,
+          }}
+        />
+      )}
     </>
   );
 }
