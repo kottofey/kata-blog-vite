@@ -1,0 +1,38 @@
+.user {
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  margin: 14px 14px 0 0;
+  height: auto;
+
+  &__textWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+    margin-right: 5px;
+  }
+
+  &__name {
+    margin-bottom: 5px;
+    max-width: 250px;
+    text-align: right;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-wrap: nowrap;
+    font-size: 12px;
+  }
+
+  &__date {
+    color: $text-color-secondary;
+    font-size: 12px;
+  }
+
+  &__avatar {
+    display: block;
+    border-radius: 50%;
+    align-self: center;
+  }
+}

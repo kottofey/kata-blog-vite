@@ -1,3 +1,52 @@
 .article {
+  background-color: $color-white;
 
+  box-shadow: 0 4px 50px 0 $article-shadow-color;
+  border-radius: $article-border-radius;
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  &__item {
+    width: 680px;
+    height: 145px;
+    padding: 10px;
+    margin: 20px auto 0;
+    align-items: start;
+
+    &:last-child {
+      margin-bottom: 20px;
+    }
   }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    color: $article-title-color;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  &__text {
+    color: $text-color-secondary;
+
+    width: 70%;
+    height: 100%;
+    display: -webkit-box;
+    font-size: 12px;
+    -webkit-line-clamp: 23;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    & ul, & li {
+      list-style: unset;
+    }
+
+    & a, & a:visited {
+      text-decoration: unset;
+      color: blue;
+    }
+  }
+}

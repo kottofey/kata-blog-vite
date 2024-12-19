@@ -1,0 +1,50 @@
+.like {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+  color: $text-color;
+  font-size: 12px;
+
+  &--full {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    color: $text-color;
+    font-size: 12px;
+
+    &::before {
+      content: '';
+      height: $heart-size;
+      width: $heart-size;
+      margin-right: 5px;
+      background: url($heart-full) no-repeat center center;
+      background-size: $heart-size $heart-size;
+    }
+  }
+
+  &--gray {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    color: $text-color;
+    font-size: 12px;
+
+    &::before {
+      content: '';
+      height: $heart-size;
+      width: $heart-size;
+      margin-right: 5px;
+      background: url($heart-gray) no-repeat center center;
+      background-size: $heart-size $heart-size;
+    }
+  }
+
+  &::before {
+    content: '';
+    height: $heart-size;
+    width: $heart-size;
+    margin-right: 5px;
+    background: url($heart) no-repeat center center;
+    background-size: $heart-size $heart-size;
+  }
+}

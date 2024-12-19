@@ -5,8 +5,9 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   root: './src',
-  publicDir: '.src/assets',
+  publicDir: './public',
   build: {
+    chunkSizeWarningLimit: 1500,
     outDir: '../dist',
     emptyOutDir: true,
     target: 'esnext',
@@ -15,7 +16,7 @@ export default defineConfig({
       input: sync('./src/**/*.html'.replace(/\\/g, '/')),
       output: {
         assetFileNames: (assetInfo) => {
-          let extType = assetInfo.name.split('.').at(1);
+          let extType = assetInfo.names[0].split('.').at(1);
           if (/png|jpe?g|svg|gif|tiff|bmp/i.test(extType)) {
             extType = 'images';
           } else if (/ttf|woff/i.test(extType)) {
