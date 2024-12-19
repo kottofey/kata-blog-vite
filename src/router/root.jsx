@@ -9,7 +9,7 @@ import Article, {
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/articles?',
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
