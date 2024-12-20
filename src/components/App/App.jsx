@@ -1,5 +1,4 @@
 import classnames from 'classnames';
-import { Button } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 
 import cls from './App.module.scss';
@@ -11,8 +10,9 @@ export default function App() {
         <span className={cls.header__title}>
           <Link to='/'>Realworld Blog - Kata</Link>
         </span>
-        <Button
-          className={classnames([cls['btn--signin'], cls.btn])}
+        <Link
+          to='/signin'
+          className={classnames([cls['link--signin'], cls.link])}
           variant='outlined'
           type='text'
           onClick={() => {
@@ -20,9 +20,10 @@ export default function App() {
           }}
         >
           Sign in
-        </Button>
-        <Button
-          className={classnames([cls['btn--signup'], cls.btn])}
+        </Link>
+        <Link
+          to='/signup'
+          className={classnames([cls['link--signup'], cls.link])}
           variant='outlined'
           type='text'
           onClick={() => {
@@ -30,7 +31,7 @@ export default function App() {
           }}
         >
           Sign up
-        </Button>
+        </Link>
       </header>
       <div className={cls.content}>
         <Outlet />

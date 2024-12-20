@@ -10,18 +10,28 @@
   }
 }
 
-.btn {
+.link {
   display: flex;
 
-  &--signup {
-    padding: 5px;
-    border-color: $btn-signup;
+  &--signup, &--signup:visited {
+    display: flex;
+    width: 100px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $btn-signup;
+    border-radius: $button-border-radius;
     margin-right: 20px;
     color: $btn-signup;
   }
 
-  &--signin {
-    margin-right: 10px;
+  &--signin, &--signin:visited {
+    display: flex;
+    width: 100px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
     margin-left: auto;
   }
 }

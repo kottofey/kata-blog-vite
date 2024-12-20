@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import Markdown from 'react-markdown';
+import Markdown from 'markdown-to-jsx';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { Link } from 'react-router-dom';
@@ -20,6 +20,7 @@ export default function ArticlePreview({ article }) {
     author,
     createdAt,
   } = article;
+
   return (
     <article className={classnames([cls.article, cls.article__item])}>
       <h2 className={cls.article__title}>

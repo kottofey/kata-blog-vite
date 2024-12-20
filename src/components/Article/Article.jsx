@@ -1,4 +1,4 @@
-import Markdown from 'react-markdown';
+import Markdown from 'markdown-to-jsx';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import classnames from 'classnames';
