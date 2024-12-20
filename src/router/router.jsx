@@ -6,6 +6,9 @@ import ArticlesList from '../components/ArticlesList';
 import Article, {
   loader as articleLoader,
 } from '../components/Article';
+import Signin from '../components/Signin';
+import Signup from '../components/Signup';
+import EditProfile from '../components/EditProfile';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +37,21 @@ const router = createBrowserRouter([
         path: '/articles/:slug',
         loader: articleLoader,
         element: <Article />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'signin',
+        element: <Signin />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'signup',
+        element: <Signup />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'profile',
+        element: <EditProfile />,
         errorElement: <ErrorPage />,
       },
     ],

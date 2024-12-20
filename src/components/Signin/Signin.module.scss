@@ -1,0 +1,61 @@
+.signin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  border-radius: $article-border-radius;
+  background-color: $color-white;
+  box-shadow: 0 4px 50px 0 $article-shadow-color;
+
+  &__card {
+    width: 380px;
+    margin-top: 20px;
+  }
+
+  &__title {
+    margin-top: 38px;
+    margin-bottom: 20px;
+  }
+
+  &__input-label {
+    display: flex;
+    margin: 0 0 5px;
+  }
+
+  &__input {
+    width: calc(100%);
+    margin: 0 0 15px;
+
+    &:invalid {
+      border-color: $color-danger;
+    }
+  }
+
+  &__checkbox {
+    display: flex;
+    margin: 0 32px 5px;
+    color: $text-color-secondary;
+
+  }
+
+  &__button {
+    position: static;
+    display: flex;
+    width: 320px;
+    margin: 20px auto;
+  }
+
+  &__note {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: $text-color-secondary;
+    font-size: 12px;
+  }
+
+  &__link, &__link:visited {
+    display: inline-flex;
+    color: $link-color;
+  }
+
+}
