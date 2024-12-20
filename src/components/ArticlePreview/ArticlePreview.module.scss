@@ -1,19 +1,17 @@
 .article {
-  background-color: $color-white;
-
-  box-shadow: 0 4px 50px 0 $article-shadow-color;
-  border-radius: $article-border-radius;
-
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
+  border-radius: $article-border-radius;
+  background-color: $color-white;
+  box-shadow: 0 4px 50px 0 $article-shadow-color;
 
   &__item {
     width: 680px;
     height: 145px;
+    align-items: start;
     padding: 10px;
     margin: 20px auto 0;
-    align-items: start;
 
     &:last-child {
       margin-bottom: 20px;
@@ -23,21 +21,20 @@
   &__title {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
     color: $article-title-color;
     font-size: 20px;
-    margin-bottom: 10px;
   }
 
   &__text {
-    color: $text-color-secondary;
-
+    display: -webkit-box;
+    overflow: hidden;
     width: 70%;
     height: 100%;
-    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    color: $text-color-secondary;
     font-size: 12px;
     -webkit-line-clamp: 23;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
     text-overflow: ellipsis;
 
     & ul, & li {
@@ -45,8 +42,8 @@
     }
 
     & a, & a:visited {
-      text-decoration: unset;
       color: blue;
+      text-decoration: unset;
     }
   }
 }

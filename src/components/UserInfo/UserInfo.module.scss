@@ -1,13 +1,12 @@
 .user {
-  display: flex;
   position: absolute;
-  right: 0;
   top: 0;
-
-  margin: 14px 14px 0 0;
+  right: 0;
+  display: flex;
   height: auto;
+  margin: 14px 14px 0 0;
 
-  &__textWrapper {
+  &__text-wrapper {
     display: flex;
     flex-direction: column;
     align-items: end;
@@ -16,13 +15,13 @@
   }
 
   &__name {
-    margin-bottom: 5px;
+    overflow: hidden;
     max-width: 250px;
+    margin-bottom: 5px;
+    font-size: 12px;
     text-align: right;
     text-overflow: ellipsis;
-    overflow: hidden;
     text-wrap: nowrap;
-    font-size: 12px;
   }
 
   &__date {
@@ -32,7 +31,7 @@
 
   &__avatar {
     display: block;
-    border-radius: 50%;
     align-self: center;
+    border-radius: 50%;
   }
 }

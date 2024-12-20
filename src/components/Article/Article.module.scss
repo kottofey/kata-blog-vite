@@ -1,32 +1,30 @@
 .article {
-  display: flex;
-  flex-direction: column;
-  margin: 15px auto 0;
   position: relative;
-
+  display: flex;
   width: 70%;
   height: min-content;
+  flex-direction: column;
   padding: 20px;
+  border-radius: $article-border-radius;
+  margin: 15px auto 0;
   margin-bottom: 20px;
   background-color: $color-white;
-  border-radius: $article-border-radius;
   box-shadow: 0 4px 50px 0 $article-shadow-color;
 
 
   &__title {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
     color: $article-title-color;
     font-size: 20px;
-    margin-bottom: 10px;
   }
 
   &__text {
-    color: $text-color-secondary;
-
     width: 100%;
     height: 100%;
     padding: 10px;
+    color: $text-color-secondary;
 
     & img {
       width: 100%;
@@ -34,13 +32,13 @@
     }
 
     & ul, & li, & ol {
-      list-style: disc;
       margin: unset;
+      list-style: disc;
     }
 
     & a, & a:visited {
-      text-decoration: unset;
       color: blue;
+      text-decoration: unset;
     }
   }
 }

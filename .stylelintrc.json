@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "stylelint-config-recommended",
+    "stylelint-config-standard-scss",
+    "stylelint-config-idiomatic-order",
+    "stylelint-config-two-dash-bem"],
+  "rules": {
+    "no-empty-source": null,
+    "block-no-empty": null
+  }
+}

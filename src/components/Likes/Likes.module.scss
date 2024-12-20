@@ -13,12 +13,12 @@
     font-size: 12px;
 
     &::before {
-      content: '';
-      height: $heart-size;
       width: $heart-size;
+      height: $heart-size;
       margin-right: 5px;
       background: url($heart-full) no-repeat center center;
       background-size: $heart-size $heart-size;
+      content: '';
     }
   }
 
@@ -30,21 +30,21 @@
     font-size: 12px;
 
     &::before {
-      content: '';
-      height: $heart-size;
       width: $heart-size;
+      height: $heart-size;
       margin-right: 5px;
       background: url($heart-gray) no-repeat center center;
       background-size: $heart-size $heart-size;
+      content: '';
     }
   }
 
   &::before {
-    content: '';
-    height: $heart-size;
     width: $heart-size;
+    height: $heart-size;
     margin-right: 5px;
     background: url($heart) no-repeat center center;
     background-size: $heart-size $heart-size;
+    content: '';
   }
 }
