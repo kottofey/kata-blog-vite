@@ -1,16 +1,37 @@
 import classnames from 'classnames';
-import { Form as RouterForm, Link } from 'react-router-dom';
-import { Button, Input } from 'antd';
+import {
+  Form as RouterForm,
+  Link,
+  useNavigate,
+} from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
+import schema from './SigninSchema';
 import cls from './Signin.module.scss';
 
 export default function Signin() {
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmitHandle = async (data) => {
+    console.log('handleSubmit', data);
+    navigate('/');
+  };
+
   return (
     <div className={classnames(cls.signin, cls.signin__card)}>
       <h2 className={cls.signin__title}>Sign In</h2>
       <RouterForm
-        method='POST'
         id='signin-form'
+        onSubmit={handleSubmit(onSubmitHandle)}
       >
         <label
           htmlFor='email'
@@ -18,13 +39,15 @@ export default function Signin() {
         >
           Email address
         </label>
-        <Input
+        <input
           className={cls.signin__input}
-          type='email'
-          required
+          type='text'
           placeholder='Email address'
           name='email'
+          autoComplete='off'
+          {...register('email')}
         />
+        <p className={cls.signin__error}>{errors.email?.message}</p>
 
         <label
           htmlFor='password'
@@ -32,25 +55,27 @@ export default function Signin() {
         >
           Password
         </label>
-        <Input.Password
+        <input
           className={cls.signin__input}
-          type='text'
-          required
+          type='password'
           placeholder='Password'
           name='password'
+          {...register('password')}
         />
+        <p className={cls.signin__error}>
+          {errors.password?.message}
+        </p>
 
-        <Button
-          type='primary'
-          htmlType='submit'
+        <button
+          type='submit'
           className={cls.signin__button}
         >
           Log In
-        </Button>
+        </button>
         <p className={cls.signin__note}>
           Don&#39;t have an account?&nbsp;
           <Link
-            to='.signin'
+            to='/signin'
             className={cls.signin__link}
           >
             Register.

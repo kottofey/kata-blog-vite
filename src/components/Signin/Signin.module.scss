@@ -5,7 +5,7 @@
   align-self: center;
   border-radius: $article-border-radius;
   background-color: $color-white;
-  box-shadow: 0 4px 50px 0 $article-shadow-color;
+  box-shadow: 0 4px 50px 0 $color-article-shadow;
 
   &__card {
     width: 380px;
@@ -19,43 +19,65 @@
 
   &__input-label {
     display: flex;
-    margin: 0 0 5px;
+    margin: 0 32px 5px;
+
+    &--checkbox {
+      flex-direction: row;
+      align-items: center;
+      font-size: 12px;
+    }
   }
 
   &__input {
-    width: calc(100%);
-    margin: 0 0 15px;
-
-    &:invalid {
-      border-color: $color-danger;
-    }
+    width: 320px;
+    height: 40px;
+    padding: 7px;
+    border: 1px solid $color-input-border;
+    border-radius: $button-border-radius;
+    margin: 0 32px;
+    font-size: 16px;
+    outline: none;
   }
 
   &__checkbox {
     display: flex;
-    margin: 0 32px 5px;
-    color: $text-color-secondary;
-
+    margin-right: 5px;
+    color: $color-text-secondary;
   }
 
   &__button {
     position: static;
     display: flex;
     width: 320px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: $button-border-radius;
     margin: 20px auto;
+    background-color: $color-btn-create;
+    color: $color-white;
+    font-size: 16px;
   }
 
   &__note {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
-    color: $text-color-secondary;
+    color: $color-text-secondary;
     font-size: 12px;
   }
 
   &__link, &__link:visited {
     display: inline-flex;
-    color: $link-color;
+    color: $color-link;
   }
 
+  &__error {
+    display: flex;
+    width: 320px;
+    align-items: center;
+    margin: 0 auto 3px;
+    color: $color-danger;
+    font-size: 10px;
+  }
 }

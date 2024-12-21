@@ -15,9 +15,6 @@ export default function App() {
           className={classnames([cls['link--signin'], cls.link])}
           variant='outlined'
           type='text'
-          onClick={() => {
-            console.log('SignIn');
-          }}
         >
           Sign in
         </Link>
@@ -26,9 +23,6 @@ export default function App() {
           className={classnames([cls['link--signup'], cls.link])}
           variant='outlined'
           type='text'
-          onClick={() => {
-            console.log('SignUp');
-          }}
         >
           Sign up
         </Link>

@@ -13,7 +13,7 @@
     "test": "return",
     "prepare": "husky",
     "pre-commit": "lint-staged",
-    "stylelint": "stylelint \"src/**/*.{css,sass,scss}\" --fix"
+    "stylelint:fix": "stylelint \"src/**/*.{css,sass,scss}\" --fix"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
@@ -22,10 +22,11 @@
     ],
     "src/**/*.{css,scss,sass}": [
       "echo Style linting!!!",
-      "npm run stylelint"
+      "npm run stylelint:fix"
     ]
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
     "@reduxjs/toolkit": "^2.5.0",
     "@vitejs/plugin-react": "^4.3.4",
     "airbnb-browser-shims": "^3.3.0",
@@ -42,7 +43,8 @@
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
     "vite": "^6.0.3",
-    "vite-plugin-checker": "^0.8.0"
+    "vite-plugin-checker": "^0.8.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.9",

@@ -1,14 +1,5 @@
-html {
-  box-sizing: border-box;
-  font-family: "Inter UI", sans-serif;
-}
-
-*, *::before, *::after {
-  box-sizing: inherit;
-}
-
-ul,
-li,
+// ul,
+// li,
 body,
 button,
 p,
@@ -17,7 +8,6 @@ p,
   border: none;
   margin: 0;
   background-color: unset;
-  font: inherit;
   list-style: none;
 }
 

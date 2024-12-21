@@ -1,16 +1,35 @@
 import classnames from 'classnames';
-import { Form as RouterForm } from 'react-router-dom';
+import { Form as RouterForm, useNavigate } from 'react-router-dom';
 import { Button, Input } from 'antd';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
+import schema from './ProfileSchema';
 import cls from './EditProfile.module.scss';
 
 export default function EditProfile() {
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmitHandle = async (data) => {
+    console.log('handleSubmit', data);
+    navigate('/');
+  };
+
   return (
     <div className={classnames(cls.profile, cls.profile__card)}>
       <h2 className={cls.profile__title}>Edit Profile</h2>
       <RouterForm
-        method='POST'
         id='signin-form'
+        method='POST'
+        onSubmit={handleSubmit(onSubmitHandle)}
       >
         <label
           htmlFor='username'
@@ -18,12 +37,17 @@ export default function EditProfile() {
         >
           Username
         </label>
-        <Input
+        <input
           className={cls.profile__input}
           type='text'
           placeholder='Username'
           name='username'
+          autoComplete='off'
+          {...register('username')}
         />
+        <p className={cls.profile__error}>
+          {errors.username?.message}
+        </p>
 
         <label
           htmlFor='email'
@@ -31,12 +55,15 @@ export default function EditProfile() {
         >
           Email address
         </label>
-        <Input
+        <input
           className={cls.profile__input}
           type='email'
+          autoComplete='off'
           placeholder='Email address'
           name='email'
+          {...register('email')}
         />
+        <p className={cls.profile__error}>{errors.email?.message}</p>
 
         <label
           htmlFor='password'
@@ -44,12 +71,16 @@ export default function EditProfile() {
         >
           New password
         </label>
-        <Input.Password
+        <input
           className={cls.profile__input}
-          type='text'
+          type='password'
           placeholder='New password'
           name='password'
+          {...register('password')}
         />
+        <p className={cls.profile__error}>
+          {errors.password?.message}
+        </p>
 
         <label
           htmlFor='avatar'
@@ -57,23 +88,25 @@ export default function EditProfile() {
         >
           Avatar image (URL)
         </label>
-        <Input
+        <input
           className={classnames(
             cls.profile__input,
             cls['profile__input--last']
           )}
-          type='url'
+          type='text'
+          autoComplete='off'
           placeholder='Avatar image'
           name='avatar'
+          {...register('avatar')}
         />
+        <p className={cls.profile__error}>{errors.avatar?.message}</p>
 
-        <Button
-          type='primary'
-          htmlType='submit'
+        <button
+          type='submit'
           className={cls.profile__button}
         >
           Save
-        </Button>
+        </button>
       </RouterForm>
     </div>
   );

@@ -19,12 +19,13 @@ export default function ArticlePreview({ article }) {
     description,
     author,
     createdAt,
+    slug,
   } = article;
 
   return (
     <article className={classnames([cls.article, cls.article__item])}>
       <h2 className={cls.article__title}>
-        <Link to={`/articles/${article.slug}`}>{title}</Link>
+        <Link to={`/articles/${slug}`}>{title}</Link>
         <Likes
           favoritesCount={favoritesCount}
           favorited={favorited}
@@ -36,12 +37,7 @@ export default function ArticlePreview({ article }) {
         createdAt={createdAt}
       />
       <div className={cls.article__text}>
-        <Markdown
-          rehypePlugins={[rehypeRaw]}
-          remarkPlugins={[remarkGfm]}
-        >
-          {description}
-        </Markdown>
+        <Markdown>{description}</Markdown>
       </div>
     </article>
   );

@@ -1,1 +1,10 @@
 @use "./reset";
+
+html {
+  box-sizing: border-box;
+  font-family: "Inter UI", sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}

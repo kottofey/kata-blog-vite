@@ -1,16 +1,25 @@
-$text-color: black;
-$text-color-secondary: #00000080;
-$btn-signup: #52C41A;
-$background-color: #EBEEF3;
-$color-white: #fff;
+// Colors
+$color-article-shadow: rgb(0 0 0 / 15%);
+$color-article-title: #1890FF;
+$color-btn-create: #1890FF;
+$color-btn-signup: #52C41A;
+$color-background: #EBEEF3;
 $color-danger: tomato;
-$article-shadow-color: rgb(0 0 0 / 15%);
-$article-title-color: #1890FF;
+$color-input-border: rgb(0 0 0 / 15%);
+$color-link: #1890FF;
+$color-text: black;
+$color-text-secondary: #00000080;
+$color-white: #fff;
+
+// Radii
 $article-border-radius: 6px;
+$button-border-radius: 6px;
+
+// Assets
 $heart: "/assets/heart.svg";
 $heart-full: "/assets/heart-full.svg";
 $heart-gray: "/assets/heart-gray.svg";
+
+// Sizes
 $heart-size: 16px;
 $header-height: 80px;
-$link-color: #1890FF;
-$button-border-radius: 6px;

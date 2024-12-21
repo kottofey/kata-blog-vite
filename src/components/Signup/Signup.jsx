@@ -1,16 +1,37 @@
-import { Form as RouterForm, Link } from 'react-router-dom';
-import { Button, Checkbox, Input } from 'antd';
+import {
+  Form as ReactRouterForm,
+  Link,
+  useNavigate,
+} from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import classnames from 'classnames';
 
+import schema from './SignupSchema';
 import cls from './Signup.module.scss';
 
 export default function Signup() {
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmitHandle = async (data) => {
+    console.log('handleSubmit', data);
+    navigate('/signin');
+  };
+
   return (
     <div className={classnames(cls.signup, cls.signup__card)}>
       <h2 className={cls.signup__title}>Create new account</h2>
-      <RouterForm
-        method='POST'
+      <ReactRouterForm
         id='signup-form'
+        onSubmit={handleSubmit(onSubmitHandle)}
       >
         <label
           htmlFor='username'
@@ -18,66 +39,92 @@ export default function Signup() {
         >
           Username
         </label>
-        <Input
+        <input
           className={cls.signup__input}
-          required
           type='text'
           placeholder='Username'
           name='username'
+          autoComplete='off'
+          {...register('username')}
         />
+        <p className={cls.signup__error}>
+          {errors.username?.message}
+        </p>
 
         <label
           htmlFor='email'
+          autoComplete='off'
           className={cls['signup__input-label']}
         >
           Email address
         </label>
-        <Input
+        <input
           className={cls.signup__input}
-          type='email'
-          required
+          type='text'
           placeholder='Email address'
+          autoComplete='off'
           name='email'
+          {...register('email')}
         />
-
+        <p className={cls.signup__error}>{errors.email?.message}</p>
         <label
           htmlFor='password'
           className={cls['signup__input-label']}
         >
           Password
         </label>
-        <Input.Password
+        <input
           className={cls.signup__input}
-          type='text'
-          required
+          type='password'
           placeholder='Password'
           name='password'
+          {...register('password')}
         />
-
+        <p className={cls.signup__error}>
+          {errors.password?.message}
+        </p>
         <label
           htmlFor='repeatPassword'
           className={cls['signup__input-label']}
         >
           Repeat Password
         </label>
-        <Input.Password
+        <input
           className={cls.signup__input}
-          type='text'
-          required
-          placeholder='Password'
+          type='password'
+          placeholder='Repeat password'
           name='repeatPassword'
+          {...register('repeatPassword')}
         />
+        <p className={cls.signup__error}>
+          {errors.repeatPassword && 'Passwords must match'}
+        </p>
 
-        <Checkbox className={cls.signup__checkbox}>
+        <label
+          htmlFor='isChecked'
+          className={classnames(
+            cls['signup__input-label'],
+            cls['signup__input-label--checkbox']
+          )}
+        >
+          <input
+            type='checkbox'
+            className={cls.signup__checkbox}
+            name='isChecked'
+            {...register('isChecked')}
+          />
           I agree to the processing of my personal information
-        </Checkbox>
-        <Button
-          type='primary'
-          htmlType='submit'
+        </label>
+        <p className={cls.signup__error}>
+          {errors.isChecked?.message}
+        </p>
+
+        <button
           className={cls.signup__button}
+          type='submit'
         >
           Create
-        </Button>
+        </button>
         <p className={cls.signup__note}>
           Already have an account?&nbsp;
           <Link
@@ -87,7 +134,7 @@ export default function Signup() {
             Sign In.
           </Link>
         </p>
-      </RouterForm>
+      </ReactRouterForm>
     </div>
   );
 }

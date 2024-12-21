@@ -19,10 +19,10 @@
     height: 40px;
     align-items: center;
     justify-content: center;
-    border: 1px solid $btn-signup;
+    border: 1px solid $color-btn-signup;
     border-radius: $button-border-radius;
     margin-right: 20px;
-    color: $btn-signup;
+    color: $color-btn-signup;
   }
 
   &--signin, &--signin:visited {
@@ -40,5 +40,5 @@
   display: flex;
   min-height: calc(100vh - $header-height);
   flex-direction: column;
-  background-color: $background-color;
+  background-color: $color-background;
 }

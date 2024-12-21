@@ -4,7 +4,7 @@
   flex-direction: column;
   border-radius: $article-border-radius;
   background-color: $color-white;
-  box-shadow: 0 4px 50px 0 $article-shadow-color;
+  box-shadow: 0 4px 50px 0 $color-article-shadow;
 
   &__item {
     width: 680px;
@@ -22,7 +22,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    color: $article-title-color;
+    color: $color-article-title;
     font-size: 20px;
   }
 
@@ -32,7 +32,7 @@
     width: 70%;
     height: 100%;
     -webkit-box-orient: vertical;
-    color: $text-color-secondary;
+    color: $color-text-secondary;
     font-size: 12px;
     -webkit-line-clamp: 23;
     text-overflow: ellipsis;
