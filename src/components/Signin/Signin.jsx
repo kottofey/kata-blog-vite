@@ -6,12 +6,18 @@ import {
 } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useDispatch } from 'react-redux';
+
+import { setLogin } from '../../redux/slices/userSlice';
+import { login } from '../../api/blogApi';
+import { setToken } from '../../utils/jwt';
 
 import schema from './SigninSchema';
 import cls from './Signin.module.scss';
 
 export default function Signin() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -22,7 +28,9 @@ export default function Signin() {
   });
 
   const onSubmitHandle = async (data) => {
-    console.log('handleSubmit', data);
+    const resp = await login({ user: data });
+    dispatch(setLogin(resp.user));
+    setToken(resp?.user?.token);
     navigate('/');
   };
 

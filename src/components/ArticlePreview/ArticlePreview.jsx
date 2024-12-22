@@ -1,7 +1,5 @@
 import classnames from 'classnames';
 import Markdown from 'markdown-to-jsx';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
 import { Link } from 'react-router-dom';
 
 import Tags from '../Tags';

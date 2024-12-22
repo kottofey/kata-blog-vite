@@ -1,13 +1,19 @@
 const BASE_URL = 'https://blog-platform.kata.academy/api';
 
-const callApi = async (url, method, body) => {
-  const resp = await fetch(url, {
+const callApi = async (url, method, body, headers) => {
+  const fetchInit = {
     method,
-    body: body || null,
+    body: JSON.stringify(body),
     headers: {
       Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...headers,
     },
-  });
+  };
+
+  if (!body) delete fetchInit.body;
+
+  const resp = await fetch(url, fetchInit);
 
   // if (!window.navigator.onLine)
   //   throw Error('Нет интернета', {
@@ -32,9 +38,13 @@ export const getArticle = async (slug) => {
   return callApi(`${BASE_URL}/articles/${slug}`, 'GET');
 };
 
-// todo make auth token
-// export const createArticle = async (article) => {
-//   return callApi('/articles', 'POST', article);
-// };
+export const login = async (user) => {
+  return callApi(`${BASE_URL}/users/login`, 'POST', user, null);
+};
 
-// console.log(await getArticles(3, 2));
+export const getUser = async (token) => {
+  const headers = {
+    Authorization: `Token ${token}`,
+  };
+  return callApi(`${BASE_URL}/user`, 'GET', null, headers);
+};

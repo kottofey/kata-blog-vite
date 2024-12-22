@@ -42,3 +42,51 @@
   flex-direction: column;
   background-color: $color-background;
 }
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &--logout {
+    width: 80px;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid $color-btn-logout;
+    border-radius: $button-border-radius;
+    margin-right: 20px;
+    color: $color-btn-logout;
+    font-size: 16px;
+  }
+
+  &--create-article {
+    width: 100px;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid $color-btn-create-article;
+    border-radius: $button-border-radius;
+    margin-right: 40px;
+    margin-left: auto;
+    color: $color-btn-create-article;
+  }
+}
+
+.user {
+  display: flex;
+  margin-right: 10px;
+
+  &--avatar {
+    overflow: hidden;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  &--username {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+}

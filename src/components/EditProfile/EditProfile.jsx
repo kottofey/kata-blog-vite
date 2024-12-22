@@ -1,14 +1,17 @@
 import classnames from 'classnames';
 import { Form as RouterForm, useNavigate } from 'react-router-dom';
-import { Button, Input } from 'antd';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSelector } from 'react-redux';
 
 import schema from './ProfileSchema';
 import cls from './EditProfile.module.scss';
 
 export default function EditProfile() {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+
+  const { username, email, image } = user;
 
   const {
     register,
@@ -16,6 +19,7 @@ export default function EditProfile() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    mode: 'onChange',
   });
 
   const onSubmitHandle = async (data) => {
@@ -39,6 +43,7 @@ export default function EditProfile() {
         </label>
         <input
           className={cls.profile__input}
+          defaultValue={username}
           type='text'
           placeholder='Username'
           name='username'
@@ -58,6 +63,7 @@ export default function EditProfile() {
         <input
           className={cls.profile__input}
           type='email'
+          defaultValue={email}
           autoComplete='off'
           placeholder='Email address'
           name='email'
@@ -94,6 +100,7 @@ export default function EditProfile() {
             cls['profile__input--last']
           )}
           type='text'
+          defaultValue={image}
           autoComplete='off'
           placeholder='Avatar image'
           name='avatar'
