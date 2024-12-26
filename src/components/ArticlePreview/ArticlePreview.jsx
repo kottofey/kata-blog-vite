@@ -23,7 +23,12 @@ export default function ArticlePreview({ article }) {
   return (
     <article className={classnames([cls.article, cls.article__item])}>
       <h2 className={cls.article__title}>
-        <Link to={`/articles/${slug}`}>{title}</Link>
+        <Link
+          to={`/articles/${slug}`}
+          className={cls['article__title--link']}
+        >
+          {title}
+        </Link>
         <Likes
           favoritesCount={favoritesCount}
           favorited={favorited}
@@ -34,9 +39,7 @@ export default function ArticlePreview({ article }) {
         author={author}
         createdAt={createdAt}
       />
-      <div className={cls.article__text}>
-        <Markdown>{description}</Markdown>
-      </div>
+      <Markdown className={cls.article__text}>{description}</Markdown>
     </article>
   );
 }

@@ -1,4 +1,4 @@
-import { createBrowserRouter, Link } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 
 import App from '../components/App';
 import ErrorPage from '../components/ErrorPage';
@@ -9,6 +9,7 @@ import Article, {
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import EditProfile from '../components/EditProfile';
+import Page404 from '../components/Page404';
 
 const router = createBrowserRouter([
   {
@@ -17,14 +18,8 @@ const router = createBrowserRouter([
     errorElement: (
       <ErrorPage>
         <p>
-          (На этот раз что-то <b>СИЛЬНО</b> не так...)
+          (Something went <b>REALLY</b> wrong...)
         </p>
-        <Link
-          to='/'
-          style={{ color: '#1890FF' }}
-        >
-          Вернуться на главную
-        </Link>
       </ErrorPage>
     ),
     children: [
@@ -35,9 +30,9 @@ const router = createBrowserRouter([
       },
       {
         path: '/articles/:slug',
-        loader: articleLoader,
         element: <Article />,
         errorElement: <ErrorPage />,
+        loader: articleLoader,
       },
       {
         path: 'signin',
@@ -48,11 +43,17 @@ const router = createBrowserRouter([
         path: 'signup',
         element: <Signup />,
         errorElement: <ErrorPage />,
+        // action: signupAction,
+        // loader: signupLoader,
       },
       {
         path: 'profile',
         element: <EditProfile />,
         errorElement: <ErrorPage />,
+      },
+      {
+        path: '*',
+        element: <Page404 />,
       },
     ],
   },

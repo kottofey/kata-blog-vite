@@ -57,6 +57,10 @@
     background-color: $color-btn-create;
     color: $color-white;
     font-size: 16px;
+
+    &--disabled {
+      background-color: $color-btn-disabled;
+    }
   }
 
   &__note {
@@ -79,5 +83,9 @@
     margin: 0 auto 3px;
     color: $color-danger;
     font-size: 10px;
+
+
   }
+
+
 }

@@ -8,17 +8,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 
-import { setLogin } from '../../redux/slices/userSlice';
-import { login } from '../../api/blogApi';
+import { clearUser, setUser } from '../../redux/slices/userSlice';
+import { useSigninMutation } from '../../redux/slices/apiSlice';
 import { setToken } from '../../utils/jwt';
+import ErrorPage from '../ErrorPage';
 
 import schema from './SigninSchema';
 import cls from './Signin.module.scss';
 
 export default function Signin() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const {
     register,
     handleSubmit,
@@ -27,12 +25,29 @@ export default function Signin() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmitHandle = async (data) => {
-    const resp = await login({ user: data });
-    dispatch(setLogin(resp.user));
-    setToken(resp?.user?.token);
-    navigate('/');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [singin, { isLoading, isError, error }] = useSigninMutation(
+    {}
+  );
+
+  const onSubmitHandle = async (submittedForm) => {
+    try {
+      const { data } = await singin({
+        user: submittedForm,
+      });
+
+      dispatch(setUser(data?.user));
+      setToken(data?.user.token);
+      navigate(-1);
+    } catch {
+      dispatch(clearUser());
+    }
   };
+
+  if (isError) {
+    return <ErrorPage error={error} />;
+  }
 
   return (
     <div className={classnames(cls.signin, cls.signin__card)}>
@@ -76,14 +91,17 @@ export default function Signin() {
 
         <button
           type='submit'
-          className={cls.signin__button}
+          className={classnames(cls.signin__button, {
+            [cls['signin__button--disabled']]: isLoading,
+          })}
+          disabled={isLoading}
         >
           Log In
         </button>
         <p className={cls.signin__note}>
           Don&#39;t have an account?&nbsp;
           <Link
-            to='/signin'
+            to='/signup'
             className={cls.signin__link}
           >
             Register.

@@ -1,6 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {
+  buildCreateSlice,
+  asyncThunkCreator,
+} from '@reduxjs/toolkit';
 
-import { parseJwt, removeToken } from '../../utils/jwt';
+import { removeToken } from '../../utils/jwt';
+
+export const createAppSlice = buildCreateSlice({
+  creators: { asyncThunk: asyncThunkCreator },
+});
 
 const initialState = {
   username: null,
@@ -10,11 +17,11 @@ const initialState = {
   // parsed: {},
 };
 
-const userSlice = createSlice({
+const userSlice = createAppSlice({
   name: 'user',
   initialState,
-  reducers: {
-    setLogin: (state, action) => {
+  reducers: (create) => ({
+    setUser: create.reducer((state, action) => {
       const { username, email, token, image } = action.payload;
       state.username = username;
       state.email = email;
@@ -22,26 +29,22 @@ const userSlice = createSlice({
       state.image =
         image ||
         'https://static.productionready.io/images/smiley-cyrus.jpg';
-      // state.parsed = parseJwt(action.payload.token);
-    },
-    setLogout: (state) => {
+    }),
+    clearUser: create.reducer((state) => {
       removeToken();
       state.username = null;
       state.email = null;
       state.image = null;
       state.token = null;
-    },
-    setEditUser: (state, action) => {},
-    setLikeArticle: (state, action) => {},
-    setUnlikeArticle: (state, action) => {},
-  },
+    }),
+  }),
 });
 
 export default userSlice;
 export const {
-  setLogin,
-  setLogout,
-  setEditUser,
-  setLikeArticle,
-  setUnlikeArticle,
+  setUser,
+  clearUser,
+  editUser,
+  likeArticle,
+  unlikeArticle,
 } = userSlice.actions;

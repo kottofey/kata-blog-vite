@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 import { getToken } from '../../utils/jwt';
-import { setLogin, setLogout } from '../../redux/slices/userSlice';
-import { getUser } from '../../api/blogApi';
+import { setUser, clearUser } from '../../redux/slices/userSlice';
+// import { getUser } from '../../api/blogApi';
+import { useGetUserQuery } from '../../redux/slices/apiSlice';
 
 import cls from './App.module.scss';
 
@@ -15,17 +16,18 @@ export default function App() {
   const username = useSelector((state) => state.user.username);
   const avatarUrl = useSelector((state) => state.user.image);
 
+  const { data } = useGetUserQuery(null, {
+    skip: !getToken(),
+  });
+
   useEffect(() => {
     let ignore = false;
-    if (getToken()) {
-      getUser(getToken()).then((resp) => {
-        dispatch(setLogin(resp.user));
-      });
-    }
+    if (data !== undefined) dispatch(setUser(data.user));
+
     return () => {
       ignore = true;
     };
-  }, [dispatch]);
+  }, [data, dispatch]);
 
   return (
     <>
@@ -82,7 +84,7 @@ export default function App() {
             <button
               type='button'
               className={classnames([cls['btn--logout'], cls.btn])}
-              onClick={() => dispatch(setLogout())}
+              onClick={() => dispatch(clearUser())}
             >
               Log Out
             </button>

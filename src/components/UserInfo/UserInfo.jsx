@@ -16,8 +16,6 @@ export default function UserInfo({ author, createdAt }) {
         className={cls.user__avatar}
         src={image}
         alt='User avavtar'
-        height={46}
-        width={46}
       />
     </div>
   );

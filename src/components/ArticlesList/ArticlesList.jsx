@@ -15,12 +15,15 @@ export default function ArticlesList() {
   const page = useSelector((state) => state.pagination.page);
   const pageSize = useSelector((state) => state.pagination.pageSize);
 
-  const { data, isFetching, isError } = useGetArticlesQuery({
+  const { data, isFetching, isError, error } = useGetArticlesQuery({
     limit: pageSize,
     offset: page * pageSize - pageSize,
   });
 
-  if (isError) return <ErrorPage />;
+  if (isError) {
+    return <ErrorPage error={error} />;
+  }
+
   return (
     <>
       {isFetching ? (
