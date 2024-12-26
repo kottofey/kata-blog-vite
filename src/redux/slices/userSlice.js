@@ -27,8 +27,7 @@ const userSlice = createAppSlice({
       state.email = email;
       state.token = token;
       state.image =
-        image ||
-        'https://static.productionready.io/images/smiley-cyrus.jpg';
+        image || `https://robohash.org/${username}?set=set4`;
     }),
     clearUser: create.reducer((state) => {
       removeToken();
