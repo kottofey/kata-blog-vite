@@ -26,7 +26,7 @@ const schema = yup.object().shape(
         is: (val) => val.length >= 6,
         then: (rule) => rule.max(40, 'Maximum 40 characters long'),
       }),
-    avatar: yup.string().url('Proper URL address must be provided'),
+    image: yup.string().url('Proper URL address must be provided'),
   }
   // [['password', 'password']]
 );

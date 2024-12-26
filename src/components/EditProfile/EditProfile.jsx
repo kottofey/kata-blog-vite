@@ -2,16 +2,20 @@ import classnames from 'classnames';
 import { Form as RouterForm, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useEditProfileMutation } from '../../redux/slices/apiSlice';
+import { setUser } from '../../redux/slices/userSlice';
+import { setToken } from '../../utils/jwt';
+import ErrorPage from '../ErrorPage';
 
 import schema from './ProfileSchema';
 import cls from './EditProfile.module.scss';
 
 export default function EditProfile() {
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
-
-  const { username, email, image } = user;
+  const { username, email, image } = useSelector(
+    (state) => state.user
+  );
 
   const {
     register,
@@ -22,10 +26,34 @@ export default function EditProfile() {
     mode: 'onChange',
   });
 
-  const onSubmitHandle = async (data) => {
-    console.log('handleSubmit', data);
-    navigate('/');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [editUser, { isLoading, isError, error }] =
+    useEditProfileMutation({});
+
+  const onSubmitHandle = async (submittedForm) => {
+    try {
+      const passChecked = { ...submittedForm };
+      if (!submittedForm.password) {
+        delete passChecked.password;
+      }
+
+      const { data } = await editUser({
+        user: passChecked,
+      });
+
+      console.log(`data: ${JSON.stringify(data)}`);
+      dispatch(setUser(data.user));
+      setToken(data.user.token);
+      navigate(-1);
+    } catch {
+      /* empty */
+    }
   };
+
+  if (isError) {
+    return <ErrorPage error={error} />;
+  }
 
   return (
     <div className={classnames(cls.profile, cls.profile__card)}>
@@ -103,14 +131,17 @@ export default function EditProfile() {
           defaultValue={image}
           autoComplete='off'
           placeholder='Avatar image'
-          name='avatar'
-          {...register('avatar')}
+          name='image'
+          {...register('image')}
         />
         <p className={cls.profile__error}>{errors.avatar?.message}</p>
 
         <button
           type='submit'
-          className={cls.profile__button}
+          className={classnames(cls.profile__button, {
+            [cls['profile__button--disabled']]: isLoading,
+          })}
+          disabled={isLoading}
         >
           Save
         </button>

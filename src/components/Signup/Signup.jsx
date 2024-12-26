@@ -6,25 +6,49 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import classnames from 'classnames';
+import { useDispatch } from 'react-redux';
+
+import { useSignupMutation } from '../../redux/slices/apiSlice';
+import { clearUser, setUser } from '../../redux/slices/userSlice';
+import { setToken } from '../../utils/jwt';
+import ErrorPage from '../ErrorPage';
 
 import schema from './SignupSchema';
 import cls from './Signup.module.scss';
 
 export default function Signup() {
-  const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    mode: 'onChange',
   });
 
-  const onSubmitHandle = async (data) => {
-    console.log('handleSubmit', data);
-    navigate('/signin');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [signup, { isLoading, isError, error }] = useSignupMutation(
+    {}
+  );
+
+  const onSubmitHandle = async (submittedForm) => {
+    try {
+      const { data } = await signup({
+        user: submittedForm,
+      });
+
+      dispatch(setUser(data?.user));
+      setToken(data?.user.token);
+      navigate(-1);
+    } catch {
+      dispatch(clearUser());
+    }
   };
+
+  if (isError) {
+    return <ErrorPage error={error} />;
+  }
 
   return (
     <div className={classnames(cls.signup, cls.signup__card)}>
@@ -46,6 +70,7 @@ export default function Signup() {
           name='username'
           autoComplete='off'
           {...register('username')}
+          defaultValue='qwe'
         />
         <p className={cls.signup__error}>
           {errors.username?.message}
@@ -53,7 +78,6 @@ export default function Signup() {
 
         <label
           htmlFor='email'
-          autoComplete='off'
           className={cls['signup__input-label']}
         >
           Email address
@@ -65,6 +89,7 @@ export default function Signup() {
           autoComplete='off'
           name='email'
           {...register('email')}
+          defaultValue='qwe@qwe'
         />
         <p className={cls.signup__error}>{errors.email?.message}</p>
         <label
@@ -79,6 +104,7 @@ export default function Signup() {
           placeholder='Password'
           name='password'
           {...register('password')}
+          defaultValue='qweqwe'
         />
         <p className={cls.signup__error}>
           {errors.password?.message}
@@ -95,6 +121,7 @@ export default function Signup() {
           placeholder='Repeat password'
           name='repeatPassword'
           {...register('repeatPassword')}
+          defaultValue='qweqwe'
         />
         <p className={cls.signup__error}>
           {errors.repeatPassword && 'Passwords must match'}
@@ -112,6 +139,7 @@ export default function Signup() {
             className={cls.signup__checkbox}
             name='isChecked'
             {...register('isChecked')}
+            defaultChecked
           />
           I agree to the processing of my personal information
         </label>
@@ -120,8 +148,11 @@ export default function Signup() {
         </p>
 
         <button
-          className={cls.signup__button}
           type='submit'
+          className={classnames(cls.signup__button, {
+            [cls['signup__button--disabled']]: isLoading,
+          })}
+          disabled={isLoading}
         >
           Create
         </button>

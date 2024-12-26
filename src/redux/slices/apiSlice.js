@@ -97,6 +97,38 @@ export const blogApi = createApi({
         body: JSON.stringify(user),
       }),
     }),
+
+    editProfile: builder.mutation({
+      query: (user) => ({
+        url: 'user',
+        method: 'PUT',
+        body: JSON.stringify(user),
+      }),
+      transformErrorResponse: (response) => {
+        if (typeof response.data === 'string') {
+          return {
+            status: response.originalStatus,
+            data: {
+              errors: {
+                [response.data]: '',
+              },
+            },
+          };
+        }
+        if (response.status === 'FETCH_ERROR') {
+          return {
+            status: 599,
+            data: {
+              errors: {
+                [response.error]: '',
+              },
+            },
+          };
+        }
+
+        return response;
+      },
+    }),
   }),
 });
 
@@ -106,4 +138,5 @@ export const {
   useSignupMutation,
   useSigninMutation,
   useGetUserQuery,
+  useEditProfileMutation,
 } = blogApi;
