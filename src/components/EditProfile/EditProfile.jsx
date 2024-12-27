@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEditProfileMutation } from '../../redux/slices/apiSlice';
 import { setUser } from '../../redux/slices/userSlice';
 import { setToken } from '../../utils/jwt';
-import ErrorPage from '../ErrorPage';
 
 import schema from './ProfileSchema';
 import cls from './EditProfile.module.scss';
@@ -28,8 +27,7 @@ export default function EditProfile() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [editUser, { isLoading, isError, error }] =
-    useEditProfileMutation({});
+  const [editUser, { isLoading, error }] = useEditProfileMutation({});
 
   const onSubmitHandle = async (submittedForm) => {
     try {
@@ -42,7 +40,6 @@ export default function EditProfile() {
         user: passChecked,
       });
 
-      console.log(`data: ${JSON.stringify(data)}`);
       dispatch(setUser(data.user));
       setToken(data.user.token);
       navigate(-1);
@@ -50,10 +47,6 @@ export default function EditProfile() {
       /* empty */
     }
   };
-
-  if (isError) {
-    return <ErrorPage error={error} />;
-  }
 
   return (
     <div className={classnames(cls.profile, cls.profile__card)}>
@@ -79,7 +72,7 @@ export default function EditProfile() {
           {...register('username')}
         />
         <p className={cls.profile__error}>
-          {errors.username?.message}
+          {errors?.username?.message || error?.data.errors.username}
         </p>
 
         <label
@@ -97,7 +90,9 @@ export default function EditProfile() {
           name='email'
           {...register('email')}
         />
-        <p className={cls.profile__error}>{errors.email?.message}</p>
+        <p className={cls.profile__error}>
+          {errors?.email?.message || error?.data.errors.email}
+        </p>
 
         <label
           htmlFor='password'

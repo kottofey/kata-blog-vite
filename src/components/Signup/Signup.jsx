@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { useSignupMutation } from '../../redux/slices/apiSlice';
 import { clearUser, setUser } from '../../redux/slices/userSlice';
 import { setToken } from '../../utils/jwt';
-import ErrorPage from '../ErrorPage';
 
 import schema from './SignupSchema';
 import cls from './Signup.module.scss';
@@ -28,9 +27,7 @@ export default function Signup() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [signup, { isLoading, isError, error }] = useSignupMutation(
-    {}
-  );
+  const [signup, { isLoading, error }] = useSignupMutation({});
 
   const onSubmitHandle = async (submittedForm) => {
     try {
@@ -46,9 +43,9 @@ export default function Signup() {
     }
   };
 
-  if (isError) {
-    return <ErrorPage error={error} />;
-  }
+  // if (isError) {
+  //   return <ErrorPage error={error} />;
+  // }
 
   return (
     <div className={classnames(cls.signup, cls.signup__card)}>
@@ -73,7 +70,7 @@ export default function Signup() {
           defaultValue='qwe'
         />
         <p className={cls.signup__error}>
-          {errors.username?.message}
+          {errors.username?.message || error?.data.errors.username}
         </p>
 
         <label
@@ -91,7 +88,9 @@ export default function Signup() {
           {...register('email')}
           defaultValue='qwe@qwe'
         />
-        <p className={cls.signup__error}>{errors.email?.message}</p>
+        <p className={cls.signup__error}>
+          {errors.email?.message || error?.data.errors.email}
+        </p>
         <label
           htmlFor='password'
           className={cls['signup__input-label']}

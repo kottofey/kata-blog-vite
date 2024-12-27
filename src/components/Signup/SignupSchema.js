@@ -13,7 +13,9 @@ const schema = yup.object().shape({
     .required('Username is required'),
   email: yup
     .string()
-    .email('Proper email address must be provided')
+    .matches(/(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)/, {
+      message: 'Proper email address must be provided',
+    })
     .required('Email is required'),
   password: yup
     .string()
