@@ -8,6 +8,7 @@ import Tags from '../Tags';
 import UserInfo from '../UserInfo';
 import { useGetArticleQuery } from '../../redux/slices/apiSlice';
 import ErrorPage from '../ErrorPage';
+import ArticleButtons from '../ArticleButtons';
 
 import cls from './Article.module.scss';
 
@@ -22,7 +23,6 @@ export default function Article() {
     useGetArticleQuery(slug);
 
   if (isError) {
-    // console.log(error);
     return <ErrorPage error={error} />;
   }
 
@@ -37,6 +37,7 @@ export default function Article() {
             <Likes
               favorited={data?.article.favorited}
               favoritesCount={data?.article.favoritesCount}
+              article={data.article}
             />
           </h2>
           {data?.article.tagList && (
@@ -46,12 +47,23 @@ export default function Article() {
             author={data?.article.author}
             createdAt={data?.article.createdAt}
           />
-          <div className={cls.article__text}>
-            <Markdown>{data?.article.description}</Markdown>
+          <div className={cls['description-wrapper']}>
+            <div
+              className={classnames(
+                cls.article__text,
+                cls['article__text--description']
+              )}
+            >
+              <Markdown>{data?.article.description}</Markdown>
+            </div>
+
+            <ArticleButtons slug={slug} />
           </div>
 
-          <div className={cls.article__text}>
-            <Markdown>{data?.article.body}</Markdown>
+          <div className={classnames(cls.article__text)}>
+            <Markdown className={cls['article__text--body']}>
+              {data?.article.body}
+            </Markdown>
           </div>
         </>
       )}

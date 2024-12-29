@@ -32,6 +32,7 @@ export default function ArticlePreview({ article }) {
         <Likes
           favoritesCount={favoritesCount}
           favorited={favorited}
+          article={article}
         />
       </h2>
       {tagList && tagList.length > 0 && <Tags tagList={tagList} />}

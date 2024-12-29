@@ -1,0 +1,118 @@
+.article {
+  display: flex;
+  width: 75%;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px;
+  border: 1px solid $color-input-border;
+  border-radius: $article-border-radius;
+  margin: 20px auto 0;
+  background-color: $color-white;
+  box-shadow: 0 4px 50px 0 $color-article-shadow;
+
+  &__header {
+    display: flex;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+  }
+
+  &__input-label {
+    width: 90%;
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  &__form {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  &__input {
+    width: 100%;
+    height: 40px;
+    padding: 12px;
+    border: 1px solid $color-input-border;
+    border-radius: $article-border-radius;
+    font-size: 16px;
+    line-height: 24px;
+    outline: none;
+
+    &--textbox {
+      min-height: 170px;
+      font-family: "Inter UI", sans-serif;
+      font-weight: normal;
+    }
+  }
+
+  &__input-error {
+    display: flex;
+    width: 320px;
+    align-items: center;
+    margin-bottom: 10px;
+    color: $color-danger;
+    font-size: 10px;
+
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $button-border-radius;
+    font-size: 16px;
+
+    &--send {
+      width: 320px;
+      height: 40px;
+      background-color: $color-btn-create;
+      color: $color-white;
+    }
+
+    &--disabled {
+      background-color: $color-btn-disabled;
+    }
+  }
+}
+
+.tags {
+  display: flex;
+  width: 600px;
+  flex-wrap: wrap;
+
+  &__wrapper {
+    display: flex;
+    flex: 0 0;
+  }
+
+   &__tag {
+     width: 320px;
+     margin-bottom: 10px;
+   }
+
+  &__button {
+    &--add {
+      width: 120px;
+      height: 40px;
+      border: 1px solid $color-btn-create;
+      margin-bottom: 20px;
+      margin-left: 20px;
+      color: $color-btn-create;
+
+      &:only-child {
+        margin-left: 0;
+      }
+    }
+
+    &--delete {
+      width: 120px;
+      height: 40px;
+      border: 1px solid $color-danger;
+      margin-left: 20px;
+      color: $color-danger;
+    }
+  }
+
+
+}

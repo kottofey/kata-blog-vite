@@ -1,18 +1,19 @@
 .tags {
   display: flex;
-  flex: 0 0;
-  flex-direction: row;
+  flex-flow: row wrap;
+  align-content: center;
+  margin-top: 10px;
+  row-gap: 10px;
 
-&__tag {
-  overflow: hidden;
-  max-width: 100px;
-  align-items: center;
-  margin-bottom: 10px;
-  background-color: unset;
-  color: $color-text-secondary;
-  text-overflow: ellipsis;
-  user-select: none;
-
-  // height: 45px;
-}
+  &__tag {
+    display: flex;
+    overflow: hidden;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: unset;
+    color: $color-text-secondary;
+    text-overflow: ellipsis;
+    user-select: none;
+  }
 }

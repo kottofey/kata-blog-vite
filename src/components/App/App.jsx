@@ -1,11 +1,10 @@
 import classnames from 'classnames';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 import { getToken } from '../../utils/jwt';
 import { setUser, clearUser } from '../../redux/slices/userSlice';
-// import { getUser } from '../../api/blogApi';
 import { useGetUserQuery } from '../../redux/slices/apiSlice';
 
 import cls from './App.module.scss';
@@ -15,6 +14,7 @@ export default function App() {
   const isLoggedIn = getToken() !== null;
   const username = useSelector((state) => state.user.username);
   const avatarUrl = useSelector((state) => state.user.image);
+  const navigate = useNavigate();
 
   const { data } = useGetUserQuery(null, {
     skip: !getToken(),
@@ -23,7 +23,7 @@ export default function App() {
   useEffect(() => {
     let ignore = false;
     if (data !== undefined) dispatch(setUser(data.user));
-
+    if (!getToken()) dispatch(clearUser());
     return () => {
       ignore = true;
     };
@@ -62,7 +62,7 @@ export default function App() {
                 cls['btn--create-article'],
                 cls.btn,
               ])}
-              onClick={() => console.log('Create Article')}
+              onClick={() => navigate('new-article')}
             >
               Create Article
             </button>

@@ -31,13 +31,13 @@ export default function EditProfile() {
 
   const onSubmitHandle = async (submittedForm) => {
     try {
-      const passChecked = { ...submittedForm };
+      const passwordChecked = { ...submittedForm };
       if (!submittedForm.password) {
-        delete passChecked.password;
+        delete passwordChecked.password;
       }
 
       const { data } = await editUser({
-        user: passChecked,
+        user: passwordChecked,
       });
 
       dispatch(setUser(data.user));

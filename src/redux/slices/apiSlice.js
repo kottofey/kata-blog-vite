@@ -16,6 +16,8 @@ export const blogApi = createApi({
     },
   }),
 
+  tagTypes: ['Article', 'User'],
+
   endpoints: (builder) => ({
     getArticles: builder.query({
       query: ({ limit, offset }) => {
@@ -28,6 +30,7 @@ export const blogApi = createApi({
           },
         };
       },
+      providesTags: ['Article'],
       transformErrorResponse(response) {
         if (response.status === 'FETCH_ERROR') {
           return {
@@ -49,6 +52,10 @@ export const blogApi = createApi({
         url: `articles/${slug}`,
         method: 'GET',
       }),
+      providesTags: (result) => {
+        // console.log(result.article.slug);
+        return [{ type: 'Article', id: result.article.slug }];
+      },
       transformErrorResponse: (response) => {
         if (typeof response.data === 'string') {
           return {
@@ -80,6 +87,7 @@ export const blogApi = createApi({
         url: 'user',
         method: 'GET',
       }),
+      providesTags: ['User'],
     }),
 
     signup: builder.mutation({
@@ -88,6 +96,7 @@ export const blogApi = createApi({
         method: 'POST',
         body: JSON.stringify(user),
       }),
+      invalidatesTags: ['User'],
     }),
 
     signin: builder.mutation({
@@ -96,6 +105,7 @@ export const blogApi = createApi({
         method: 'POST',
         body: JSON.stringify(user),
       }),
+      invalidatesTags: ['User'],
     }),
 
     editProfile: builder.mutation({
@@ -104,6 +114,7 @@ export const blogApi = createApi({
         method: 'PUT',
         body: JSON.stringify(user),
       }),
+      invalidatesTags: ['User'],
       transformErrorResponse: (response) => {
         if (typeof response.data === 'string') {
           return {
@@ -129,6 +140,81 @@ export const blogApi = createApi({
         return response;
       },
     }),
+
+    createArticle: builder.mutation({
+      query: (article) => ({
+        url: 'articles',
+        method: 'POST',
+        body: JSON.stringify(article),
+      }),
+      invalidatesTags: ['Article'],
+      transformErrorResponse(response) {
+        return response;
+      },
+    }),
+
+    deleteArticle: builder.mutation({
+      query: (slug) => ({
+        url: `articles/${slug}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Article'],
+      transformErrorResponse(response) {
+        return response;
+      },
+    }),
+
+    editArticle: builder.mutation({
+      query: ({ slug, article }) => ({
+        url: `articles/${slug}`,
+        method: 'PUT',
+        body: JSON.stringify(article),
+      }),
+      invalidatesTags: (result) => {
+        return [
+          'Article',
+          { type: 'Article', id: result.article.slug },
+        ];
+      },
+      transformErrorResponse(response) {
+        console.log(
+          `edit article error: ${JSON.stringify(response)}`
+        );
+        return response;
+      },
+    }),
+
+    likeArticle: builder.mutation({
+      query: (slug) => ({
+        url: `articles/${slug}/favorite`,
+        method: 'POST',
+      }),
+      invalidatesTags: (result) => {
+        return [
+          'Article',
+          { type: 'Article', id: result.article.slug },
+        ];
+      },
+      transformErrorResponse(response) {
+        return response;
+      },
+    }),
+
+    dislikeArticle: builder.mutation({
+      query: (slug) => ({
+        url: `articles/${slug}/favorite`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result) => {
+        return [
+          'Article',
+          { type: 'Article', id: result.article.slug },
+        ];
+      },
+      transformErrorResponse(response) {
+        return response;
+      },
+    }),
   }),
 });
 
@@ -139,4 +225,9 @@ export const {
   useSigninMutation,
   useGetUserQuery,
   useEditProfileMutation,
+  useCreateArticleMutation,
+  useEditArticleMutation,
+  useDeleteArticleMutation,
+  useLikeArticleMutation,
+  useDislikeArticleMutation,
 } = blogApi;

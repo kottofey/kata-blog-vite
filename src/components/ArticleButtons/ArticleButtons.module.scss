@@ -1,0 +1,26 @@
+.button {
+  display: flex;
+  width: 80px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: $button-border-radius;
+  font-size: 16px;
+
+  &--edit {
+    border: 1px solid $color-btn-create-article;
+    color: $color-btn-create-article;
+  }
+
+  &--delete {
+    border: 1px solid $color-danger;
+    color: $color-danger;
+  }
+}
+
+.wrapper {
+  display: flex;
+  width: fit-content;
+  flex-direction: row;
+  column-gap: 10px;
+}

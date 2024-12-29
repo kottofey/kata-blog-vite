@@ -10,6 +10,10 @@ import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import EditProfile from '../components/EditProfile';
 import Page404 from '../components/Page404';
+import ArticleEdit, {
+  loader as articleEditLoader,
+} from '../components/ArticleEdit';
+import cls from '../components/ArticleEdit/ArticleEdit.module.scss';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +39,16 @@ const router = createBrowserRouter([
         loader: articleLoader,
       },
       {
+        path: '/articles/:slug/edit',
+        element: (
+          <ArticleEdit>
+            <h1 className={cls.article__header}>Edit article</h1>
+          </ArticleEdit>
+        ),
+        errorElement: <ErrorPage />,
+        loader: articleEditLoader,
+      },
+      {
         path: 'signin',
         element: <Signin />,
         errorElement: <ErrorPage />,
@@ -49,6 +63,17 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <EditProfile />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'new-article',
+        element: (
+          <ArticleEdit>
+            <h1 className={cls.article__header}>
+              Create new article
+            </h1>
+          </ArticleEdit>
+        ),
         errorElement: <ErrorPage />,
       },
       {
