@@ -17,6 +17,12 @@ import schema from './SigninSchema';
 import cls from './Signin.module.scss';
 
 export default function Signin() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [singin, { isLoading, isError, error }] = useSigninMutation(
+    {}
+  );
+
   const {
     register,
     handleSubmit,
@@ -26,12 +32,6 @@ export default function Signin() {
     mode: 'onChange',
   });
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [singin, { isLoading, isError, error }] = useSigninMutation(
-    {}
-  );
-
   const onSubmitHandle = async (submittedForm) => {
     try {
       const { data } = await singin({
@@ -40,7 +40,7 @@ export default function Signin() {
 
       dispatch(setUser(data?.user));
       setToken(data?.user.token);
-      navigate(-1);
+      navigate('/');
     } catch {
       dispatch(clearUser());
     }

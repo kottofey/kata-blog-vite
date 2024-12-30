@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import errUnknown from '../../assets/unknown-error.jpg';
+
 export default function Page404() {
   return (
     <div
@@ -11,7 +13,7 @@ export default function Page404() {
     >
       <h1>Page not Found</h1>
       <img
-        src='/src/assets/unknown-error.jpg'
+        src={errUnknown}
         alt='Page not found'
         width={400}
       />

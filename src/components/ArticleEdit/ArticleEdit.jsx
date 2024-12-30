@@ -3,16 +3,18 @@ import {
   useLoaderData,
   useNavigate,
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import classnames from 'classnames';
+import { Fragment, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   useCreateArticleMutation,
   useEditArticleMutation,
   useGetArticleQuery,
 } from '../../redux/slices/apiSlice';
+import { getToken } from '../../utils/jwt';
 
 import schema from './ArticleSchema';
 import cls from './ArticleEdit.module.scss';
@@ -23,12 +25,21 @@ export const loader = ({ params }) => {
 
 export default function ArticleEdit({ children }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const slug = useLoaderData();
+  const currentUser = useSelector((state) => state.user.username);
 
   const { data } = useGetArticleQuery(slug, {
     skip: !slug,
   });
+
+  useEffect(() => {
+    if (!getToken()) navigate('/signin');
+    if (
+      currentUser !== data?.article.author.username &&
+      data?.article.author.username !== undefined
+    )
+      navigate('/');
+  }, [currentUser, navigate, data?.article.author.username]);
 
   const [
     createArticle,
@@ -79,8 +90,6 @@ export default function ArticleEdit({ children }) {
       /* empty */
     }
   };
-
-  console.log(errors);
 
   return (
     <div className={cls.article}>
@@ -162,41 +171,48 @@ export default function ArticleEdit({ children }) {
         <div className={cls.tags}>
           {fields.map((field, i) => {
             return (
-              <section
-                key={field.id}
-                className={cls.tags__wrapper}
-                name='tagList'
-              >
-                <input
+              <Fragment key={field.id}>
+                <p
                   className={classnames(
-                    cls.tags__tag,
-                    cls.article__input
+                    cls['article__input-error'],
+                    cls['article__input-error--tags']
                   )}
-                  type='text'
-                  name={field.name}
-                  autoComplete='off'
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
-                      event.preventDefault();
-                      append('', {
-                        focusName: `tagList[${fields.length}]`,
-                      });
-                    }
-                  }}
-                  {...register(`tagList[${i}]`, { required: true })}
-                />
-                <button
-                  type='button'
-                  className={classnames(
-                    cls.article__button,
-                    cls.tags__button,
-                    cls['tags__button--delete']
-                  )}
-                  onClick={() => remove(i)}
                 >
-                  Delete
-                </button>
-              </section>
+                  {errors?.tagList?.message ||
+                    errors?.tagList?.[i]?.message}
+                </p>
+                <section className={cls.tags__wrapper}>
+                  <input
+                    className={classnames(
+                      cls.tags__tag,
+                      cls.article__input
+                    )}
+                    type='text'
+                    name={field.name}
+                    autoComplete='off'
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault();
+                        append('', {
+                          focusName: `tagList[${fields.length}]`,
+                        });
+                      }
+                    }}
+                    {...register(`tagList[${i}]`, { required: true })}
+                  />
+                  <button
+                    type='button'
+                    className={classnames(
+                      cls.article__button,
+                      cls.tags__button,
+                      cls['tags__button--delete']
+                    )}
+                    onClick={() => remove(i)}
+                  >
+                    Delete
+                  </button>
+                </section>
+              </Fragment>
             );
           })}
           <button
@@ -213,9 +229,6 @@ export default function ArticleEdit({ children }) {
             Add Tag
           </button>
         </div>
-        <p className={cls['article__input-error']}>
-          {errors?.tagList?.message || errors?.tagList?.[0].message}
-        </p>
 
         <button
           type='submit'

@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import { useNavigate } from 'react-router-dom';
+import { Button, Popconfirm } from 'antd';
 
 import { useDeleteArticleMutation } from '../../redux/slices/apiSlice';
 
@@ -18,16 +19,23 @@ export default function ArticleButtons({ slug }) {
       >
         Edit
       </button>
-      <button
-        type='button'
-        className={classnames(cls.button, cls['button--delete'])}
-        onClick={() => {
+      <Popconfirm
+        title='Delete article'
+        description='Are you sure to delete?'
+        okText='Yes'
+        cancelText='No'
+        onConfirm={() => {
           deleteArticle(slug);
           navigate('/');
         }}
       >
-        Delete
-      </button>
+        <Button
+          type='button'
+          className={classnames(cls.button, cls['button--delete'])}
+        >
+          Delete
+        </Button>
+      </Popconfirm>
     </div>
   );
 }

@@ -4,7 +4,8 @@ import errUnknown from '../../assets/unknown-error.jpg';
 import err599 from '../../assets/599.jpg';
 
 export default function ErrorPage({ error, children }) {
-  console.log('debug error:', error);
+  console.log(`error page: ${JSON.stringify(error, null, 2)}`);
+
   return (
     <div
       style={{
@@ -18,7 +19,7 @@ export default function ErrorPage({ error, children }) {
       <h1>Опачки... Что-то пошло не так!</h1>
       <h2>Но вы держитесь!</h2>
       <object
-        data={`https://http.cat/${error?.originalStatus || error?.status}`}
+        data={`https://http.cat/${error?.status}`}
         type='image/jpeg'
         height={400}
       >
@@ -29,14 +30,7 @@ export default function ErrorPage({ error, children }) {
         />
       </object>
 
-      <i>
-        Детали: {error?.error}
-        {Object.keys(error?.data?.errors).map((key) => (
-          <b key={key}>
-            {key} {error?.data?.errors[key]}{' '}
-          </b>
-        ))}
-      </i>
+      <i>Детали: {error?.message}</i>
       {children}
       <Link
         to='/'

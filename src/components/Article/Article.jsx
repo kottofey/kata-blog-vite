@@ -2,6 +2,7 @@ import Markdown from 'markdown-to-jsx';
 import classnames from 'classnames';
 import { useLoaderData } from 'react-router-dom';
 import { Spin } from 'antd';
+import { useSelector } from 'react-redux';
 
 import Likes from '../Likes';
 import Tags from '../Tags';
@@ -18,7 +19,7 @@ export const loader = ({ params }) => {
 
 export default function Article() {
   const slug = useLoaderData();
-
+  const currentUser = useSelector((state) => state.user.username);
   const { data, isLoading, isError, error } =
     useGetArticleQuery(slug);
 
@@ -57,7 +58,9 @@ export default function Article() {
               <Markdown>{data?.article.description}</Markdown>
             </div>
 
-            <ArticleButtons slug={slug} />
+            {currentUser === data?.article?.author.username && (
+              <ArticleButtons slug={slug} />
+            )}
           </div>
 
           <div className={classnames(cls.article__text)}>

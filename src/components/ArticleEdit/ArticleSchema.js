@@ -21,12 +21,12 @@ const schema = yup.object().shape({
     .of(
       yup
         .string()
-        .matches(/(^[a-zA-Z][a-zA-Z0-9-_]*$)/, {
+        .matches(/(^[a-zA-Zа-яА-Я][ а-яА-Яa-zA-Z0-9-_]*$)/, {
           excludeEmptyString: true,
           message:
-            'Allowed symbols are numbers, Latin letters (capital and small), dash and underscore. First character must be a letter',
+            'Allowed symbols are numbers, letters (capital and small), dash and underscore. First character must be a letter',
         })
-        .max(15, '15 letters maximum')
+        .max(15, '15 symbols maximum')
     ),
 });
 

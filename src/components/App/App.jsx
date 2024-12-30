@@ -11,10 +11,10 @@ import cls from './App.module.scss';
 
 export default function App() {
   const dispatch = useDispatch();
-  const isLoggedIn = getToken() !== null;
+  const navigate = useNavigate();
+
   const username = useSelector((state) => state.user.username);
   const avatarUrl = useSelector((state) => state.user.image);
-  const navigate = useNavigate();
 
   const { data } = useGetUserQuery(null, {
     skip: !getToken(),
@@ -23,7 +23,7 @@ export default function App() {
   useEffect(() => {
     let ignore = false;
     if (data !== undefined) dispatch(setUser(data.user));
-    if (!getToken()) dispatch(clearUser());
+    // if (!getToken()) dispatch(clearUser());
     return () => {
       ignore = true;
     };
@@ -35,7 +35,7 @@ export default function App() {
         <span className={cls.header__title}>
           <Link to='/'>Realworld Blog - Kata</Link>
         </span>
-        {!isLoggedIn ? (
+        {!getToken() ? (
           <>
             <Link
               to='/signin'

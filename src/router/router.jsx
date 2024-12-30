@@ -8,7 +8,7 @@ import Article, {
 } from '../components/Article';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
-import EditProfile from '../components/EditProfile';
+import ProfileEdit from '../components/ProfileEdit';
 import Page404 from '../components/Page404';
 import ArticleEdit, {
   loader as articleEditLoader,
@@ -57,12 +57,10 @@ const router = createBrowserRouter([
         path: 'signup',
         element: <Signup />,
         errorElement: <ErrorPage />,
-        // action: signupAction,
-        // loader: signupLoader,
       },
       {
         path: 'profile',
-        element: <EditProfile />,
+        element: <ProfileEdit />,
         errorElement: <ErrorPage />,
       },
       {

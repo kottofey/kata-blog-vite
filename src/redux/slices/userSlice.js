@@ -40,10 +40,4 @@ const userSlice = createAppSlice({
 });
 
 export default userSlice;
-export const {
-  setUser,
-  clearUser,
-  editUser,
-  likeArticle,
-  unlikeArticle,
-} = userSlice.actions;
+export const { setUser, clearUser } = userSlice.actions;

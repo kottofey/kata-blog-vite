@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEditProfileMutation } from '../../redux/slices/apiSlice';
 import { setUser } from '../../redux/slices/userSlice';
 import { setToken } from '../../utils/jwt';
+import ErrorPage from '../ErrorPage';
 
 import schema from './ProfileSchema';
 import cls from './EditProfile.module.scss';
 
-export default function EditProfile() {
+export default function ProfileEdit() {
   const { username, email, image } = useSelector(
     (state) => state.user
   );
@@ -27,7 +28,8 @@ export default function EditProfile() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [editUser, { isLoading, error }] = useEditProfileMutation({});
+  const [editUser, { isError, isLoading, error }] =
+    useEditProfileMutation({});
 
   const onSubmitHandle = async (submittedForm) => {
     try {
@@ -40,13 +42,18 @@ export default function EditProfile() {
         user: passwordChecked,
       });
 
-      dispatch(setUser(data.user));
+      dispatch(setUser(data?.user));
       setToken(data.user.token);
       navigate(-1);
     } catch {
+      console.log('catch!');
       /* empty */
     }
   };
+
+  if (isError) {
+    return <ErrorPage error={error} />;
+  }
 
   return (
     <div className={classnames(cls.profile, cls.profile__card)}>

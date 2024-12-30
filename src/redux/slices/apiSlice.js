@@ -5,6 +5,47 @@ import {
 
 import { getToken } from '../../utils/jwt';
 
+const decorateError = (error) => {
+  let decoratedError = {};
+
+  console.log('на входе:', JSON.stringify(error, null, 2));
+
+  if (typeof error.data === 'string') {
+    console.log(1);
+    decoratedError = {
+      status: error.originalStatus || error.status,
+      message: error.data,
+    };
+  } else if (!error.data.errors.message) {
+    console.log(2);
+    console.log(
+      JSON.stringify(Object.entries(error.data.errors)[0].join(' '))
+    );
+    decoratedError = {
+      status: error.status || error.originalStatus,
+      message: Object.entries(error.data.errors)[0].join(' '),
+    };
+  } else {
+    console.log(3);
+    decoratedError = {
+      status: error.status || error.originalStatus,
+      message: error.data.errors.message,
+    };
+  }
+
+  if (error.status === 'FETCH_ERROR') {
+    decoratedError = {
+      status: 599,
+      message: 'FETCH_ERROR',
+    };
+  }
+
+  console.log(
+    `на выходе: ${JSON.stringify(decoratedError, null, 2)}`
+  );
+  return decoratedError;
+};
+
 export const blogApi = createApi({
   reducerPath: 'blogApi',
   baseQuery: fetchBaseQuery({
@@ -31,20 +72,7 @@ export const blogApi = createApi({
         };
       },
       providesTags: ['Article'],
-      transformErrorResponse(response) {
-        if (response.status === 'FETCH_ERROR') {
-          return {
-            status: 599,
-            data: {
-              errors: {
-                [response.error]: '',
-              },
-            },
-          };
-        }
-
-        return response;
-      },
+      transformErrorResponse: (response) => decorateError(response),
     }),
 
     getArticle: builder.query({
@@ -54,32 +82,11 @@ export const blogApi = createApi({
       }),
       providesTags: (result) => {
         // console.log(result.article.slug);
-        return [{ type: 'Article', id: result.article.slug }];
+        if (result)
+          return [{ type: 'Article', id: result.article.slug }];
+        return [''];
       },
-      transformErrorResponse: (response) => {
-        if (typeof response.data === 'string') {
-          return {
-            status: response.originalStatus,
-            data: {
-              errors: {
-                [response.data]: '',
-              },
-            },
-          };
-        }
-        if (response.status === 'FETCH_ERROR') {
-          return {
-            status: 599,
-            data: {
-              errors: {
-                [response.error]: '',
-              },
-            },
-          };
-        }
-
-        return response;
-      },
+      transformErrorResponse: (response) => decorateError(response),
     }),
 
     getUser: builder.query({
@@ -88,6 +95,7 @@ export const blogApi = createApi({
         method: 'GET',
       }),
       providesTags: ['User'],
+      transformErrorResponse: (response) => decorateError(response),
     }),
 
     signup: builder.mutation({
@@ -97,6 +105,7 @@ export const blogApi = createApi({
         body: JSON.stringify(user),
       }),
       invalidatesTags: ['User'],
+      transformErrorResponse: (response) => decorateError(response),
     }),
 
     signin: builder.mutation({
@@ -106,6 +115,7 @@ export const blogApi = createApi({
         body: JSON.stringify(user),
       }),
       invalidatesTags: ['User'],
+      transformErrorResponse: (response) => decorateError(response),
     }),
 
     editProfile: builder.mutation({
@@ -115,30 +125,7 @@ export const blogApi = createApi({
         body: JSON.stringify(user),
       }),
       invalidatesTags: ['User'],
-      transformErrorResponse: (response) => {
-        if (typeof response.data === 'string') {
-          return {
-            status: response.originalStatus,
-            data: {
-              errors: {
-                [response.data]: '',
-              },
-            },
-          };
-        }
-        if (response.status === 'FETCH_ERROR') {
-          return {
-            status: 599,
-            data: {
-              errors: {
-                [response.error]: '',
-              },
-            },
-          };
-        }
-
-        return response;
-      },
+      transformErrorResponse: (response) => decorateError(response),
     }),
 
     createArticle: builder.mutation({
@@ -148,9 +135,7 @@ export const blogApi = createApi({
         body: JSON.stringify(article),
       }),
       invalidatesTags: ['Article'],
-      transformErrorResponse(response) {
-        return response;
-      },
+      transformErrorResponse: (response) => decorateError(response),
     }),
 
     deleteArticle: builder.mutation({
@@ -159,9 +144,7 @@ export const blogApi = createApi({
         method: 'DELETE',
       }),
       invalidatesTags: ['Article'],
-      transformErrorResponse(response) {
-        return response;
-      },
+      transformErrorResponse: (response) => decorateError(response),
     }),
 
     editArticle: builder.mutation({
@@ -176,12 +159,7 @@ export const blogApi = createApi({
           { type: 'Article', id: result.article.slug },
         ];
       },
-      transformErrorResponse(response) {
-        console.log(
-          `edit article error: ${JSON.stringify(response)}`
-        );
-        return response;
-      },
+      transformErrorResponse: (response) => decorateError(response),
     }),
 
     likeArticle: builder.mutation({
@@ -195,9 +173,7 @@ export const blogApi = createApi({
           { type: 'Article', id: result.article.slug },
         ];
       },
-      transformErrorResponse(response) {
-        return response;
-      },
+      transformErrorResponse: (response) => decorateError(response),
     }),
 
     dislikeArticle: builder.mutation({
@@ -211,9 +187,7 @@ export const blogApi = createApi({
           { type: 'Article', id: result.article.slug },
         ];
       },
-      transformErrorResponse(response) {
-        return response;
-      },
+      transformErrorResponse: (response) => decorateError(response),
     }),
   }),
 });

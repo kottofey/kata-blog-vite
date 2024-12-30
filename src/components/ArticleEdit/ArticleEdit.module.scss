@@ -54,6 +54,11 @@
     color: $color-danger;
     font-size: 10px;
 
+    &--tags {
+      width: 100%;
+      margin-bottom: 0;
+    }
+
   }
 
   &__button {
@@ -83,6 +88,7 @@
 
   &__wrapper {
     display: flex;
+    width: 100%;
     flex: 0 0;
   }
 
