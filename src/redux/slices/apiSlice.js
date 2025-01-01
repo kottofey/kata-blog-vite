@@ -167,6 +167,23 @@ export const blogApi = createApi({
         url: `articles/${slug}/favorite`,
         method: 'POST',
       }),
+      async onQueryStarted(slug, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          blogApi.util.updateQueryData(
+            'getArticle',
+            slug,
+            (draft) => {
+              draft.article.favorited = !draft.article.favorited;
+              draft.article.favoritesCount += 1;
+            }
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
       invalidatesTags: (result) => {
         return [
           'Article',
@@ -181,6 +198,23 @@ export const blogApi = createApi({
         url: `articles/${slug}/favorite`,
         method: 'DELETE',
       }),
+      async onQueryStarted(slug, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          blogApi.util.updateQueryData(
+            'getArticle',
+            slug,
+            (draft) => {
+              draft.article.favorited = !draft.article.favorited;
+              draft.article.favoritesCount -= 1;
+            }
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
       invalidatesTags: (result) => {
         return [
           'Article',

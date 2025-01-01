@@ -34,12 +34,8 @@ export default function Article() {
       ) : (
         <>
           <h2 className={cls.article__title}>
-            {data?.article.title}
-            <Likes
-              favorited={data?.article.favorited}
-              favoritesCount={data?.article.favoritesCount}
-              article={data.article}
-            />
+            {data?.article.title ?? ''}
+            <Likes slug={data?.article.slug} />
           </h2>
           {data?.article.tagList && (
             <Tags tagList={data?.article.tagList} />
@@ -55,17 +51,17 @@ export default function Article() {
                 cls['article__text--description']
               )}
             >
-              <Markdown>{data?.article.description}</Markdown>
+              <Markdown>{data?.article.description ?? ''}</Markdown>
             </div>
 
-            {currentUser === data?.article?.author.username && (
+            {currentUser === data?.article.author?.username && (
               <ArticleButtons slug={slug} />
             )}
           </div>
 
           <div className={classnames(cls.article__text)}>
             <Markdown className={cls['article__text--body']}>
-              {data?.article.body}
+              {data?.article.body ?? ''}
             </Markdown>
           </div>
         </>

@@ -9,16 +9,8 @@ import Likes from '../Likes';
 import cls from './ArticlePreview.module.scss';
 
 export default function ArticlePreview({ article }) {
-  const {
-    title,
-    favoritesCount,
-    favorited,
-    tagList,
-    description,
-    author,
-    createdAt,
-    slug,
-  } = article;
+  const { title, tagList, description, author, createdAt, slug } =
+    article;
 
   return (
     <article className={classnames([cls.article, cls.article__item])}>
@@ -29,11 +21,7 @@ export default function ArticlePreview({ article }) {
         >
           {title}
         </Link>
-        <Likes
-          favoritesCount={favoritesCount}
-          favorited={favorited}
-          article={article}
-        />
+        <Likes slug={article.slug} />
       </h2>
       {tagList && tagList.length > 0 && <Tags tagList={tagList} />}
       <UserInfo
