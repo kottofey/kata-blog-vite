@@ -46,7 +46,8 @@
     "react",
     "react-hooks",
     "import",
-    "prettier"
+    "prettier",
+    "no-comment"
   ],
   "overrides": [
     {
@@ -60,6 +61,7 @@
     }
   ],
   "rules": {
+    "no-comment/no-comment-line": "error",
     "import/order": [
       2,
       {

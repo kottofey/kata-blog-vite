@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { getToken } from '../../utils/jwt';
 import { setUser, clearUser } from '../../redux/slices/userSlice';
@@ -20,12 +20,12 @@ export default function App() {
     skip: !getToken(),
   });
 
+  const ignore = useRef(false);
+
   useEffect(() => {
-    let ignore = false;
     if (data !== undefined) dispatch(setUser(data.user));
-    // if (!getToken()) dispatch(clearUser());
     return () => {
-      ignore = true;
+      ignore.current = true;
     };
   }, [data, dispatch]);
 

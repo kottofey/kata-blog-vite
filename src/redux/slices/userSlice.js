@@ -14,7 +14,6 @@ const initialState = {
   email: null,
   image: null,
   token: null,
-  // parsed: {},
 };
 
 const userSlice = createAppSlice({

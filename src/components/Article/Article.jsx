@@ -59,11 +59,15 @@ export default function Article() {
             )}
           </div>
 
-          <div className={classnames(cls.article__text)}>
-            <Markdown className={cls['article__text--body']}>
-              {data?.article.body ?? ''}
-            </Markdown>
-          </div>
+          <Markdown
+            className={classnames(
+              cls.article__text,
+              cls['article__text--body']
+            )}
+            options={{}}
+          >
+            {data?.article.body ?? ''}
+          </Markdown>
         </>
       )}
     </article>

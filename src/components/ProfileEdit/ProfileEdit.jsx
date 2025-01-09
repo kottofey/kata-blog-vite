@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEditProfileMutation } from '../../redux/slices/apiSlice';
 import { setUser } from '../../redux/slices/userSlice';
 import { setToken } from '../../utils/jwt';
-import ErrorPage from '../ErrorPage';
 
 import schema from './ProfileSchema';
 import cls from './EditProfile.module.scss';
@@ -32,28 +31,33 @@ export default function ProfileEdit() {
     useEditProfileMutation({});
 
   const onSubmitHandle = async (submittedForm) => {
+    let formChecked = { ...submittedForm };
+
     try {
-      const passwordChecked = { ...submittedForm };
       if (!submittedForm.password) {
-        delete passwordChecked.password;
+        delete formChecked.password;
+      }
+
+      try {
+        await fetch(submittedForm.image).then(() => {});
+      } catch {
+        formChecked = {
+          ...formChecked,
+          image: `https://robohash.org/${formChecked}?set=set4`,
+        };
       }
 
       const { data } = await editUser({
-        user: passwordChecked,
+        user: formChecked,
       });
 
       dispatch(setUser(data?.user));
       setToken(data.user.token);
       navigate(-1);
     } catch {
-      console.log('catch!');
       /* empty */
     }
   };
-
-  if (isError) {
-    return <ErrorPage error={error} />;
-  }
 
   return (
     <div className={classnames(cls.profile, cls.profile__card)}>
@@ -78,9 +82,14 @@ export default function ProfileEdit() {
           autoComplete='off'
           {...register('username')}
         />
-        <p className={cls.profile__error}>
-          {errors?.username?.message || error?.data.errors.username}
-        </p>
+
+        {isError && (
+          <p className={cls.profile__error}>
+            {errors?.username?.message ||
+              (error?.data?.errors.username &&
+                `username ${error?.data?.errors.username}`)}
+          </p>
+        )}
 
         <label
           htmlFor='email'
@@ -98,9 +107,10 @@ export default function ProfileEdit() {
           {...register('email')}
         />
         <p className={cls.profile__error}>
-          {errors?.email?.message || error?.data.errors.email}
+          {errors?.email?.message ||
+            (error?.data?.errors.email &&
+              `email ${error?.data?.errors.email}`)}
         </p>
-
         <label
           htmlFor='password'
           className={cls['profile__input-label']}
@@ -117,7 +127,6 @@ export default function ProfileEdit() {
         <p className={cls.profile__error}>
           {errors.password?.message}
         </p>
-
         <label
           htmlFor='avatar'
           className={cls['profile__input-label']}
@@ -136,8 +145,7 @@ export default function ProfileEdit() {
           name='image'
           {...register('image')}
         />
-        <p className={cls.profile__error}>{errors.avatar?.message}</p>
-
+        <p className={cls.profile__error}>{errors.image?.message}</p>
         <button
           type='submit'
           className={classnames(cls.profile__button, {

@@ -81,7 +81,6 @@ export const blogApi = createApi({
         method: 'GET',
       }),
       providesTags: (result) => {
-        // console.log(result.article.slug);
         if (result)
           return [{ type: 'Article', id: result.article.slug }];
         return [''];
@@ -105,7 +104,6 @@ export const blogApi = createApi({
         body: JSON.stringify(user),
       }),
       invalidatesTags: ['User'],
-      transformErrorResponse: (response) => decorateError(response),
     }),
 
     signin: builder.mutation({
@@ -125,7 +123,6 @@ export const blogApi = createApi({
         body: JSON.stringify(user),
       }),
       invalidatesTags: ['User'],
-      transformErrorResponse: (response) => decorateError(response),
     }),
 
     createArticle: builder.mutation({

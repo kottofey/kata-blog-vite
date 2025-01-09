@@ -12,11 +12,11 @@ import cls from './Likes.module.scss';
 export default function Likes({ slug }) {
   const { data } = useGetArticleQuery(slug);
 
-  const [like, { data: likeData, isLoading: likeLoading }] =
-    useLikeArticleMutation({});
+  const [like, { data: likeData }] = useLikeArticleMutation({});
 
-  const [dislike, { data: dislikeData, isLoading: dislikeLoading }] =
-    useDislikeArticleMutation({});
+  const [dislike, { data: dislikeData }] = useDislikeArticleMutation(
+    {}
+  );
 
   let combinedFavorited = data?.article?.favorited;
   let combinedFavoritesCount = data?.article?.favoritesCount;

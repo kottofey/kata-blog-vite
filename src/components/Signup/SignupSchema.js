@@ -13,13 +13,10 @@ const schema = yup.object().shape({
     .required('Username is required'),
   email: yup
     .string()
-    .matches(
-      /(^[a-z][a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)/,
-      {
-        message:
-          'Proper email address must be provided. First character cannot be capital letter, dot or number',
-      }
-    )
+    .matches(/(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)/, {
+      message:
+        'Proper email address must be provided. First character cannot be dot or number',
+    })
     .required('Email is required'),
   password: yup
     .string()

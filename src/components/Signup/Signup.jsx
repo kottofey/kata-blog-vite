@@ -11,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { useSignupMutation } from '../../redux/slices/apiSlice';
 import { clearUser, setUser } from '../../redux/slices/userSlice';
 import { setToken } from '../../utils/jwt';
-import ErrorPage from '../ErrorPage';
 
 import schema from './SignupSchema';
 import cls from './Signup.module.scss';
@@ -28,9 +27,7 @@ export default function Signup() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [signup, { isError, isLoading, error }] = useSignupMutation(
-    {}
-  );
+  const [signup, { isLoading, error }] = useSignupMutation({});
 
   const onSubmitHandle = async (submittedForm) => {
     try {
@@ -45,8 +42,6 @@ export default function Signup() {
       dispatch(clearUser());
     }
   };
-
-  if (isError) return <ErrorPage error={error} />;
 
   return (
     <div className={classnames(cls.signup, cls.signup__card)}>
@@ -68,10 +63,12 @@ export default function Signup() {
           name='username'
           autoComplete='off'
           {...register('username')}
-          defaultValue='qwe'
         />
         <p className={cls.signup__error}>
-          {errors.username?.message || error?.data.errors.username}
+          {errors.username?.message ||
+            (error?.data?.errors.username &&
+              `username ${error?.data?.errors.username}`) ||
+            errors?.message}
         </p>
 
         <label
@@ -87,10 +84,11 @@ export default function Signup() {
           autoComplete='off'
           name='email'
           {...register('email')}
-          defaultValue='qwe@qwe.asd'
         />
         <p className={cls.signup__error}>
-          {errors.email?.message || error?.data.errors.email}
+          {errors.email?.message ||
+            (error?.data.errors.email &&
+              `email ${error?.data.errors.email}`)}
         </p>
         <label
           htmlFor='password'
@@ -104,7 +102,6 @@ export default function Signup() {
           placeholder='Password'
           name='password'
           {...register('password')}
-          defaultValue='qweqwe'
         />
         <p className={cls.signup__error}>
           {errors.password?.message}
@@ -121,7 +118,6 @@ export default function Signup() {
           placeholder='Repeat password'
           name='repeatPassword'
           {...register('repeatPassword')}
-          defaultValue='qweqwe'
         />
         <p className={cls.signup__error}>
           {errors.repeatPassword && 'Passwords must match'}
@@ -139,7 +135,6 @@ export default function Signup() {
             className={cls.signup__checkbox}
             name='isChecked'
             {...register('isChecked')}
-            defaultChecked
           />
           I agree to the processing of my personal information
         </label>
