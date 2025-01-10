@@ -15,9 +15,11 @@ import ArticleEdit, {
 } from '../components/ArticleEdit';
 import cls from '../components/ArticleEdit/ArticleEdit.module.scss';
 
+import * as PATH from './paths';
+
 const router = createBrowserRouter([
   {
-    path: '/articles?',
+    path: PATH.ROOT,
     element: <App />,
     errorElement: (
       <ErrorPage>
@@ -33,13 +35,13 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: '/articles/:slug',
+        path: PATH.ARTICLE,
         element: <Article />,
         errorElement: <ErrorPage />,
         loader: articleLoader,
       },
       {
-        path: '/articles/:slug/edit',
+        path: PATH.ARTICLE_EDIT,
         element: (
           <ArticleEdit>
             <h1 className={cls.article__header}>Edit article</h1>
@@ -49,22 +51,22 @@ const router = createBrowserRouter([
         loader: articleEditLoader,
       },
       {
-        path: 'signin',
+        path: PATH.SIGNIN,
         element: <Signin />,
         errorElement: <ErrorPage />,
       },
       {
-        path: 'signup',
+        path: PATH.SIGNUP,
         element: <Signup />,
         errorElement: <ErrorPage />,
       },
       {
-        path: 'profile',
+        path: PATH.PROFILE,
         element: <ProfileEdit />,
         errorElement: <ErrorPage />,
       },
       {
-        path: 'new-article',
+        path: PATH.ARTICLE_CREATE,
         element: (
           <ArticleEdit>
             <h1 className={cls.article__header}>
@@ -75,7 +77,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: '*',
+        path: PATH.STAR,
         element: <Page404 />,
       },
     ],
