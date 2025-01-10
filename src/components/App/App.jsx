@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react';
 import { getToken } from '../../utils/jwt';
 import { setUser, clearUser } from '../../redux/slices/userSlice';
 import { useGetUserQuery } from '../../redux/slices/apiSlice';
+import dummyAvatar from '../../assets/heart-full.svg';
 
 import cls from './App.module.scss';
 
@@ -78,6 +79,9 @@ export default function App() {
                   src={avatarUrl}
                   alt='User avatar'
                   width={46}
+                  onError={(e) => {
+                    e.currentTarget.src = dummyAvatar;
+                  }}
                 />
               </div>
             </Link>

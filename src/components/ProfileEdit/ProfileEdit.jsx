@@ -31,20 +31,11 @@ export default function ProfileEdit() {
     useEditProfileMutation({});
 
   const onSubmitHandle = async (submittedForm) => {
-    let formChecked = { ...submittedForm };
+    const formChecked = { ...submittedForm };
 
     try {
       if (!submittedForm.password) {
         delete formChecked.password;
-      }
-
-      try {
-        await fetch(submittedForm.image).then(() => {});
-      } catch {
-        formChecked = {
-          ...formChecked,
-          image: `https://robohash.org/${formChecked.username}?set=set4`,
-        };
       }
 
       const { data } = await editUser({
@@ -52,7 +43,7 @@ export default function ProfileEdit() {
       });
 
       dispatch(setUser(data?.user));
-      setToken(data.user.token);
+      setToken(data?.user.token);
       navigate('/');
     } catch {
       /* empty */
