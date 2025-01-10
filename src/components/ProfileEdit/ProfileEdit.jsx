@@ -43,7 +43,7 @@ export default function ProfileEdit() {
       } catch {
         formChecked = {
           ...formChecked,
-          image: `https://robohash.org/${formChecked}?set=set4`,
+          image: `https://robohash.org/${formChecked.username}?set=set4`,
         };
       }
 
@@ -53,7 +53,7 @@ export default function ProfileEdit() {
 
       dispatch(setUser(data?.user));
       setToken(data.user.token);
-      navigate(-1);
+      navigate('/');
     } catch {
       /* empty */
     }

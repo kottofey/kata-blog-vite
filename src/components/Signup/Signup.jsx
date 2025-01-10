@@ -37,7 +37,7 @@ export default function Signup() {
 
       dispatch(setUser(data?.user));
       setToken(data?.user.token);
-      navigate(-1);
+      navigate('/');
     } catch {
       dispatch(clearUser());
     }
